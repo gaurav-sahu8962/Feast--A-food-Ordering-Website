@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Feast – FEAST Food Delivered Fast</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav class="navbar" id="main-nav">
+  <div class="nav-brand">🍽️ Feast- Order delicious food</div>
+  <div class="nav-links">
+    <span id="user-greeting" class="greeting hidden"></span>
+    <span id="location-display" class="loc-display hidden">
+      <i class="fas fa-map-marker-alt"></i>
+      <span id="loc-text">Locating…</span>
+    </span>
+    <button class="cart-btn" onclick="handleCartClick()">
+      <i class="fas fa-shopping-cart"></i>
+      <span id="cart-count" class="badge">0</span>
+    </button>
+    <button class="btn-auth" id="nav-login-btn" onclick="openAuthModal('login')">Login / Sign Up</button>
+    <button class="btn-logout hidden" id="nav-logout-btn" onclick="logoutUser()">Logout</button>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">🚀 30-Minute Delivery Expected</div>
+    <h1>Feast<br/><span>We deliver on time</span></h1>
+    <p>Fresh, hot food from top restaurants – right to your door.</p>
+    <div class="search-bar">
+      <i class="fas fa-search"></i>
+      <input type="text" id="search-input" placeholder="Search burgers, pizza, biryani…" oninput="filterMenu()"/>
+    </div>
+  </div>
+  <div class="hero-imgs">
+    <div class="hero-food-card">🥗<span>Paneer</span></div>
+    <div class="hero-food-card">🍔<span>Burger</span></div>
+    <div class="hero-food-card pop">🍕<span>Pizza</span></div>
+    <div class="hero-food-card">🍛<span>Biryani</span></div>
+    <div class="hero-food-card pop2">🍰<span>Dessert</span></div>
+    <div class="hero-food-card">🥤<span>Drinks</span></div>
+    <div class="hero-food-card">🌯<span>Street Food</span></div>
+  </div>
+</section>
+
+<!-- ========== PROMO BANNERS ========== -->
+<section class="promos">
+  <div class="promo-card" style="background:linear-gradient(135deg,#ff6b35,#ffb347)">
+    <div class="promo-text">
+      <h3>50% OFF</h3>
+      <p>On your first order</p>
+      <button onclick="scrollToMenu()">Order Now →</button>
+    </div>
+    <span class="promo-emoji"></span>
+  </div>
+  <div class="promo-card" style="background:linear-gradient(135deg,#1a1a2e,#0f3460)">
+    <div class="promo-text">
+      <h3>Free Delivery</h3>
+      <p>On orders above ₹299</p>
+      <button onclick="scrollToMenu()">Explore →</button>
+    </div>
+    <span class="promo-emoji"></span>
+  </div>
+  <div class="promo-card" style="background:linear-gradient(135deg,#11998e,#38ef7d)">
+    <div class="promo-text">
+      <h3>Fresh &amp; Hot</h3>
+      <p>Delivered in  Expected 30 minutes</p>
+      <button onclick="scrollToMenu()">Browse →</button>
+    </div>
+    <span class="promo-emoji"></span>
+  </div>
+</section>
+
+<!-- ========== STATS ========== -->
+<section class="stats-bar">
+  <div class="stat"><span>80+</span><p>Menu Items</p></div>
+  <div class="stat"><span>30 min</span><p>Avg Delivery</p></div>
+  <div class="stat"><span>4.8 ⭐</span><p>User Rating</p></div>
+</section>
+
+<!-- ========== CATEGORY FILTER ========== -->
+<div class="categories" id="menu-section">
+  <button class="cat-btn active" onclick="filterCategory('all',this)">🍽️ All</button>
+  <button class="cat-btn" onclick="filterCategory('paneer',this)">🧀 Paneer</button>
+  <button class="cat-btn" onclick="filterCategory('sandwich',this)">🥪 Sandwiches</button>
+  <button class="cat-btn" onclick="filterCategory('burger',this)">🍔 Burgers</button>
+  <button class="cat-btn" onclick="filterCategory('pizza',this)">🍕 Pizza</button>
+  <button class="cat-btn" onclick="filterCategory('biryani',this)">🍛 Biryani</button>
+  <button class="cat-btn" onclick="filterCategory('pasta',this)">🍝 Pasta</button>
+  <button class="cat-btn" onclick="filterCategory('dessert',this)">🍰 Desserts</button>
+  <button class="cat-btn" onclick="filterCategory('drinks',this)">🥤 Drinks</button>
+  <button class="cat-btn" onclick="filterCategory('wraps',this)">🌯 Rolls</button>
+  <button class="cat-btn" onclick="filterCategory('street',this)">🥨 Street Food</button>
+  <button class="cat-btn" onclick="filterCategory('village',this)">🏘️ Village</button>
+</div>
+
+<div class="section-title">🔥 Our Menu</div>
+<div id="menu-grid" class="menu-grid"></div>
+
+<!-- ========== ORDERS (logged-in only) ========== -->
+<div class="section-title hidden" id="orders-title">📦 Your Orders</div>
+<div id="orders-list" class="orders-list"></div>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer">
+  <div class="footer-brand">🍽️ Feast- Order delicious food</div>
+  <p>© 2025 Feast- Order delicious Food. Delivering happiness, one meal at a time.</p>
+ 
+  <section id="about" class="info-section">
+  <h2>About Us</h2>
+  <p>Feast is a food ordering platform delivering delicious meals at your doorstep.</p>
+</section>
+
+<section id="contact" class="info-section">
+  <h2>Contact Us</h2>
+  <p>Email: gaurav@feast.com</p>
+  <p>Phone: +91 89628 98518</p>
+</section>
+
+<section id="privacy" class="info-section">
+  <h2>Privacy Policy</h2>
+  <p>Your data is safe with us. We never share personal information.</p>
+</section>
+  
+</footer>
+
+<!-- ========== CART SIDEBAR ========== -->
+<div id="cart-overlay" class="cart-overlay hidden" onclick="toggleCart()"></div>
+<div id="cart-sidebar" class="cart-sidebar hidden">
+  <div class="cart-header">
+    <h3>🛒 Your Cart</h3>
+    <button onclick="toggleCart()"><i class="fas fa-times"></i></button>
+  </div>
+  <div id="cart-items" class="cart-items"></div>
+  <div id="cart-footer" class="cart-footer hidden">
+    <div class="delivery-loc">
+      <i class="fas fa-map-marker-alt"></i>
+      <span id="cart-loc-text">Fetching your location…</span>
+    </div>
+    <div class="total-row">
+      <span>Subtotal:</span>
+      <span id="cart-total">₹0</span>
+    </div>
+    <div class="total-row grand">
+      <span>Delivery:</span>
+      <span id="cart-delivery">₹30</span>
+    </div>
+    <button class="btn-primary" onclick="placeOrder()"> Place Order</button>
+  </div>
+  <div id="cart-empty" class="cart-empty">
+    <span>🍽️</span>
+    <p>Your cart is empty</p>
+    <small>Add items from the menu below</small>
+  </div>
+</div>
+
+<!-- ========== AUTH MODAL ========== -->
+<div id="auth-overlay" class="modal-overlay hidden">
+  <div class="modal-box" id="auth-modal">
+    <div class="modal-top">
+      <div class="modal-brand">🍽️ Feast- Order delicious food</div>
+      <button class="modal-close" onclick="closeAuthModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <p class="modal-hint" id="auth-hint">Login or Sign Up to place your order</p>
+
+    <!-- Tabs -->
+    <div class="auth-tabs">
+      <button id="tab-login" class="tab-btn active" onclick="showTab('login')">Login</button>
+      <button id="tab-signup" class="tab-btn" onclick="showTab('signup')">Sign Up</button>
+    </div>
+
+    <!-- Login Form -->
+    <div id="login-form" class="auth-tab active">
+      <div class="form-group">
+        <label>Email or Phone</label>
+        <input type="text" id="login-email" placeholder="Enter email or phone number"/>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="pass-wrap">
+          <input type="password" id="login-pass" placeholder="Enter your password"/>
+          <i class="fas fa-eye toggle-pass" onclick="togglePass('login-pass',this)"></i>
+        </div>
+      </div>
+      <div id="login-error" class="error-msg"></div>
+      <button class="btn-primary full" onclick="loginUser()">Login &amp; Continue</button>
+    </div>
+
+    <!-- Signup Form -->
+    <div id="signup-form" class="auth-tab">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="signup-name" placeholder="Your full name"/>
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" id="signup-phone" placeholder="10-digit number"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="signup-email" placeholder="your@email.com"/>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <div class="pass-wrap">
+          <input type="password" id="signup-pass" placeholder="Min 6 characters"/>
+          <i class="fas fa-eye toggle-pass" onclick="togglePass('signup-pass',this)"></i>
+        </div>
+      </div>
+      <div id="signup-error" class="error-msg"></div>
+      <button class="btn-primary full" onclick="signupUser()">Create Account &amp; Continue</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== LOCATION MODAL ========== -->
+<div id="loc-overlay" class="modal-overlay hidden">
+  <div class="modal-box loc-modal">
+    <div class="loc-icon-big">📍</div>
+    <h2>Allow Location Access</h2>
+    <p>We need your location to deliver food accurately and estimate delivery time.</p>
+    <button class="btn-primary full" onclick="fetchLocation()">
+      <i class="fas fa-location-arrow"></i>&nbsp; Use My Current Location
+    </button>
+    <button class="btn-secondary" onclick="showManualAddr()"> Enter Address Manually</button>
+    <div id="manual-addr-wrap" class="hidden" style="margin-top:14px">
+      <input type="text" id="manual-addr" class="addr-input" placeholder="Enter your full delivery address…"/>
+      <button class="btn-primary full" onclick="saveManualAddress()" style="margin-top:10px">✅ Confirm Address</button>
+    </div>
+    <div id="loc-status" class="loc-status"></div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="toast hidden"></div>
+
+<script src="script.js"></script>
+
+
+<script>
+function updateLocation(orderId, newLocation, callback, customerName) {
+  let orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+  orders = orders.map(order => {
+    if (order.orderId === orderId) {
+      order.location = newLocation;
+    }
+    return order;
+  });
+
+  localStorage.setItem("orders", JSON.stringify(orders));
+  alert("Location updated!");
+}
+</script>
+</body>
+</html>
